@@ -1,14 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
   // 🔊 Лемур-музика з динамічною картинкою
   const lemur = document.querySelector('.lemur.center');
+  const lemurImg = lemur?.querySelector('img');
   const audio = document.getElementById('bg-music');
 
   const updateLemurImage = () => {
-    if (!lemur) return;
-    lemur.innerHTML = `<img src="./img/${audio.paused ? 'i3' : 'i31'}.png" alt="lemur">`;
+    if (lemurImg) {
+      lemurImg.src = `./img/${audio.paused ? 'i3' : 'i31'}.png`;
+    }
   };
 
-  if (lemur && audio) {
+  if (lemur && audio && lemurImg) {
     updateLemurImage(); // Початковий рендер
 
     lemur.addEventListener('click', () => {
@@ -17,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         audio.pause();
       }
-      updateLemurImage();
     });
 
     audio.addEventListener('play', updateLemurImage);
@@ -121,5 +122,3 @@ document.addEventListener('DOMContentLoaded', () => {
   createTomatoes();
   initGallery();
 });
-
-
