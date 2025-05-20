@@ -270,6 +270,17 @@ body {
 .contract:hover {
     transform: scale(1.1);
 }
+.hover-scale {
+    /* cursor: pointer; */
+    transition: transform 0.3s ease;
+}
+.hover-scale:hover {
+    transform: scale(1.1);
+}
+
+.hover-scale:hover {
+    transform: scale(1.1);
+}
 
 .gallery-section {
     background: linear-gradient(0deg, rgba(255,255,19,1) 0%, rgba(255,255,19,1) 75%, rgba(255,208,14,1) 100%);
