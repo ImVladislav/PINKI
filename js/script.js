@@ -1,15 +1,27 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // 🔊 Лемур-музика
+  // 🔊 Лемур-музика з динамічною картинкою
   const lemur = document.querySelector('.lemur.center');
   const audio = document.getElementById('bg-music');
+
+  const updateLemurImage = () => {
+    if (!lemur) return;
+    lemur.innerHTML = `<img src="./img/${audio.paused ? 'i3' : 'i31'}.png" alt="lemur">`;
+  };
+
   if (lemur && audio) {
+    updateLemurImage(); // Початковий рендер
+
     lemur.addEventListener('click', () => {
       if (audio.paused) {
         audio.play();
       } else {
         audio.pause();
       }
+      updateLemurImage();
     });
+
+    audio.addEventListener('play', updateLemurImage);
+    audio.addEventListener('pause', updateLemurImage);
   }
 
   // 🍅 Помідори
@@ -105,15 +117,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Запуск
+  // 🚀 Запуск
   createTomatoes();
   initGallery();
 });
-
-
-
-
-
-
 
 
