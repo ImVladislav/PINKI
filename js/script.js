@@ -1,108 +1,119 @@
-// Создание помидоров
-function createTomatoes() {
+document.addEventListener('DOMContentLoaded', () => {
+  // 🔊 Лемур-музика
+  const lemur = document.querySelector('.lemur.center');
+  const audio = document.getElementById('bg-music');
+  if (lemur && audio) {
+    lemur.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    });
+  }
+
+  // 🍅 Помідори
+  function createTomatoes() {
     const container = document.querySelector('.tomatoes-container');
-    
-    // Создаем левую группу помидоров
+    if (!container) return;
+
     const leftTomatoes = document.createElement('div');
     leftTomatoes.className = 'tomatoes-left';
     leftTomatoes.style.backgroundImage = "url('./img/i5.png')";
-    
-    // Создаем правую группу помидоров
+
     const rightTomatoes = document.createElement('div');
     rightTomatoes.className = 'tomatoes-right';
     rightTomatoes.style.backgroundImage = "url('./img/i6.png')";
-    
+
     container.appendChild(leftTomatoes);
     container.appendChild(rightTomatoes);
-}
+  }
 
-// Параллакс эффект для помидоров
-document.addEventListener('mousemove', (e) => {
+  // 🎨 Параллакс для помідорів
+  document.addEventListener('mousemove', (e) => {
     const leftTomatoes = document.querySelector('.tomatoes-left');
     const rightTomatoes = document.querySelector('.tomatoes-right');
+    if (!leftTomatoes || !rightTomatoes) return;
+
     const moveX = (e.clientX - window.innerWidth / 2) * 0.05;
-    
     leftTomatoes.style.transform = `translateX(${-moveX}px)`;
     rightTomatoes.style.transform = `translateX(${moveX}px)`;
-});
+  });
 
-// Анимация лемура при скролле
-let lastScrollTop = 0;
-window.addEventListener('scroll', () => {
+  // 🐵 Лемур-підглядач при скролі
+  let lastScrollTop = 0;
+  window.addEventListener('scroll', () => {
     const lemurPeek = document.querySelector('.lemur-peek');
+    if (!lemurPeek) return;
+
     const currentScroll = window.pageYOffset;
-    
     if (currentScroll > lastScrollTop) {
-        // Скролл вниз - поднимаем голову лемура
-        lemurPeek.style.transform = 'translateY(-50px)'; // Поднимаем на 20px вверх
+      lemurPeek.style.transform = 'translateY(-50px)';
     } else {
-        // Скролл вверх - возвращаем в исходное положение
-        lemurPeek.style.transform = 'translateY(0)';
+      lemurPeek.style.transform = 'translateY(0)';
     }
     lastScrollTop = currentScroll;
-});
+  });
 
-// Функция для галереи
-function initGallery() {
+  // 🖼️ Галерея
+  function initGallery() {
     const track = document.querySelector('.gallery-track');
+    if (!track) return;
     let isHovered = false;
-    
-    // Создаем массив из 18 изображений
-    const images = Array.from({length: 18}, (_, i) => {
-        const img = document.createElement('img');
-        img.src = `./gallery/img${i + 1}.jpg`; // Обновлен путь к изображениям
-        return img;
+
+    const images = Array.from({ length: 18 }, (_, i) => {
+      const img = document.createElement('img');
+      img.src = `./gallery/img${i + 1}.jpg`;
+      return img;
     });
-    
-    // Добавляем изображения в track
+
     images.forEach(img => track.appendChild(img));
-    
-    // Дублируем изображения для бесконечной прокрутки
     images.forEach(img => track.appendChild(img.cloneNode(true)));
-    
-    // Обработчики событий для остановки/запуска анимации
+
     track.addEventListener('mouseenter', () => isHovered = true);
     track.addEventListener('mouseleave', () => isHovered = false);
-    
-    // Анимация прокрутки
+
     let position = 0;
     function animate() {
-        if (!isHovered) {
-            position -= 0.5; // Скорость прокрутки
-            
-            // Сброс позиции для бесконечной прокрутки
-            if (position <= -track.offsetWidth / 2) {
-                position = 0;
-            }
-            
-            track.style.transform = `translateX(${position}px)`;
+      if (!isHovered) {
+        position -= 0.5;
+        if (position <= -track.offsetWidth / 2) {
+          position = 0;
         }
-        requestAnimationFrame(animate);
+        track.style.transform = `translateX(${position}px)`;
+      }
+      requestAnimationFrame(animate);
     }
-    
-    animate();
-}
 
-// Инициализация
-document.addEventListener('DOMContentLoaded', () => {
-    createTomatoes();
-    initGallery();
+    animate();
+  }
+
+  // 📋 Копіювання контракту
+  const contract = document.querySelector('.contract');
+  const toast = document.getElementById('copy-toast');
+  if (contract && toast) {
+    contract.addEventListener('click', () => {
+      const text = document.getElementById('contract-text')?.textContent;
+      if (!text) return;
+
+      navigator.clipboard.writeText(text).then(() => {
+        toast.classList.add('show');
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 2000);
+      });
+    });
+  }
+
+  // Запуск
+  createTomatoes();
+  initGallery();
 });
 
 
-//Копіювання єбучого контракту
 
 
-function copyContract() {
-  const text = document.getElementById('contract-text').textContent;
 
-  // Копіювання в буфер
-  navigator.clipboard.writeText(text).then(() => {
-    const toast = document.getElementById('copy-toast');
-    toast.classList.add('show');
 
-    setTimeout(() => {
-      toast.classList.remove('show');
-    }, 2000);
-  });
-}
+
+
